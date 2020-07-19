@@ -1,0 +1,26 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks'
+import TextView from './Text.vue'
+
+<Meta title='UI | Text' component={Text} />
+
+# Text
+
+文本组件
+
+## Useage
+
+``` html
+<TextView ellipsis>$123,456,789.00</TextView>
+```
+
+<Preview>
+  <Story name='Text mdx' height='100px'>{{
+    components: { TextView },
+    // 不支持 render
+    template: `<TextView ellipsis style="background:red; width: 100px; border: 1px solid #000;">$123,456,789.00</TextView>`
+  }}</Story>
+</Preview>
+
+## Props
+
+<Props of={TextView} />
