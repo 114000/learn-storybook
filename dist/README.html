@@ -1,0 +1,237 @@
+<!doctype html><html><head><meta charset=UTF-8><title>storybook startup - By binyu.wang</title><link rel=stylesheet href=https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css><link rel=stylesheet href=https://cdn.staticfile.org/prism/1.15.0/themes/prism.min.css><link rel=stylesheet href=https://cdn.staticfile.org/KaTeX/0.10.0-rc.1/katex.min.css><link rel=stylesheet href=/style.css><link href=./css/chunk-vendors.4e4765ff.css rel=stylesheet></head><body><div><article id=webslides><section slide class="slide aligncenter" video="/video.mp4 autoplay loop"><video autoplay loop muted preload=true class=background-video><source src=/video.mp4></video><div class=wrap wrap=true><h1 class=text-landing>Storybook</h1></div></section><section slide class="slide bg-light"><div class=wrap wrap=true><div class=fadeInUp><h3>1. 开始使用</h3><h3>2. 一些配置</h3><h3>3. 插件使用</h3><h3>4. 进行测试</h3></div></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h2>1. 开始使用</h2></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h3>1.1 新建项目</h3><div class="content-left animated fadeInLeft delay-800"><pre class=language-bash><code class=language-bash>$ vue create <span class="token operator">&lt;</span>project<span class="token operator">></span> <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">cd</span> <span class="token operator">&lt;</span>project<span class="token operator">></span>
+<span class="token operator">&lt;</span>p<span class="token operator">></span>$ npx -p @storybook/cli sb init --type vue
+<span class="token operator">&lt;</span>p<span class="token operator">></span>$ <span class="token function">npm</span> run storybook
+</code></pre><ul><li>storybook <a href=https://storybook.js.org/docs/guides/guide-vue/ target=_blank>https://storybook.js.org/docs/guides/guide-vue/</a></li><li>vue cli</li></ul></div><div class="content-right animated fadeInRight delay-800"><pre class=language-textile><code class=language-textile><span class="token phrase">/- </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>project</span><span class="token punctuation">></span></span>
+  |- .storybook/       # 配置项目录
+  |- public/
+  |- src/
+  |- stories/          # stories
+  |- storybook-static/ # 打包后静态站 
+  |- test/
+  |- ...
+</code></pre></div></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h3>1.2 写一个组件</h3><p>上手简单，最原始的项目就可以使用 .vue .jsx 开发组件</p><hr><div class="content-left animated fadeInLeft delay-800"><pre class=language-html><code class=language-html><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>cmp-text<span class="token punctuation">"</span></span> <span class="token attr-name">:attrs</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>$attrs<span class="token punctuation">"</span></span> <span class="token attr-name">:class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{ 'ellipsis': ellipsis }<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slot</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slot</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  props<span class="token operator">:</span> <span class="token punctuation">{</span> ellipsis<span class="token operator">:</span> <span class="token punctuation">{</span> type<span class="token operator">:</span> Boolean<span class="token punctuation">,</span> <span class="token keyword">default</span><span class="token operator">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css">
+<span class="token selector">.cmp-text.ellipsis</span> <span class="token punctuation">{</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span> <span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span> 
+  <span class="token property">text-overflow</span><span class="token punctuation">:</span> ellipsis<span class="token punctuation">;</span> <span class="token property">white-space</span><span class="token punctuation">:</span> nowrap<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span>
+</code></pre></div><div class="content-right animated fadeInRight delay-800"><pre class=language-jsx><code class=language-jsx><span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">TextDemo</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+  components<span class="token operator">:</span> <span class="token punctuation">{</span> Text <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">render</span> <span class="token punctuation">(</span><span class="token parameter">h</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Text</span></span> 
+        <span class="token attr-name">ellipsis</span><span class="token style-attr language-css"><span class="token attr-name">
+        <span class="token attr-name">style</span></span><span class="token punctuation">="</span><span class="token attr-value"><span class="token property">background</span><span class="token punctuation">:</span>red<span class="token punctuation">;</span> <span class="token property">width</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span>
+      <span class="token punctuation">></span></span>$<span class="token number">123</span><span class="token punctuation">,</span><span class="token number">456</span><span class="token punctuation">,</span><span class="token number">789.00</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Text</span></span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+TextDemo<span class="token punctuation">.</span>story <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token string">'文本组件是我的中文名字'</span>
+<span class="token punctuation">}</span>
+</code></pre></div><div class="content-botton animated fadeInUp delay-1500"><ul><li><a href=https://storybook.js.org/docs/formats/storiesof-api/ target=_blank>另一种 story 写法 StoriesOf API</a></li></ul></div></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><iframe src="/single-project/storybook-static/?path=/story/text--test-component" style="width: 90%; height: 70vh;"></iframe></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h3>1.3 组织多项目</h3><hr><div class="content-left animated fadeInLeft delay-800"><h4>创建项目</h4><pre class=language-bash><code class=language-bash>$ <span class="token function">npm</span> i lerna -g
+$ <span class="token function">mkdir</span> <span class="token operator">&lt;</span>project<span class="token operator">></span> <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">cd</span> <span class="token operator">&lt;</span>project<span class="token operator">></span>
+<span class="token operator">&lt;</span>p<span class="token operator">></span>$ lerna init
+<span class="token operator">&lt;</span>p<span class="token operator">></span>$ lerna create <span class="token operator">&lt;</span>package<span class="token operator">></span> -y
+<span class="token comment"># ...</span>
+<span class="token operator">&lt;</span>p<span class="token operator">></span>$ npx -p @storybook/cli sb init --type vue
+<span class="token operator">&lt;</span>p<span class="token operator">></span>$ <span class="token function">npm</span> i vue vue-loader vue-template-compiler -D
+<span class="token operator">&lt;</span>p<span class="token operator">></span>$ <span class="token builtin class-name">echo</span> node_modules <span class="token operator">></span> .gitignore
+</code></pre></div><div class="content-right animated fadeInRight delay-800"><h4>目录结构</h4><pre class=language-bash><code class=language-bash>/- <span class="token operator">&lt;</span>project<span class="token operator">></span>
+ <span class="token operator">|</span>- .storybook/      <span class="token comment"># 配置项目录</span>
+ <span class="token operator">|</span>- packages/
+ <span class="token operator">|</span>   <span class="token operator">|</span>- <span class="token operator">&lt;</span>package<span class="token operator">></span>/components/Button/
+ <span class="token operator">|</span>      <span class="token operator">|</span>- Button.vue
+ <span class="token operator">|</span>      <span class="token operator">|</span>- Button.stories.js
+ <span class="token operator">|</span>   <span class="token operator">|</span>- <span class="token operator">&lt;</span>package<span class="token operator">></span>/components/BarChart/
+ <span class="token operator">|</span>      <span class="token operator">|</span>- BarChart.js
+ <span class="token operator">|</span>      <span class="token operator">|</span>- BarChart.stories.mdx
+ <span class="token operator">|</span>- storybook-static/ <span class="token comment"># 打包后静态站 </span>
+</code></pre></div></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h2>2. 一些配置</h2></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h3>2.1 预设</h3><blockquote><p>.storybook/main.js</p></blockquote><hr><div class="content-left animated fadeInLeft delay-800"><pre class=language-diff><code class=language-diff>module.exports = {
+<span class="token deleted-sign deleted">- stories: ['../stories/**/*.stories.js']
+</span><span class="token inserted-sign inserted">+ stories: ['../packages/**/*.stories.(js|mdx)'],
+</span><span class="token unchanged">  addons: [
+    '@storybook/addon-actions', 
+    '@storybook/addon-links',
+</span><span class="token inserted-sign inserted">+   '@storybook/addon-docs'
+</span><span class="token unchanged">  ],
+</span><span class="token inserted-sign inserted">+ webpackFinal: async config => {
+</span>
+<span class="token inserted-sign inserted">+   const aliasPairs = {
++     '@group/ui': path.resolve('../packages/ui/components'),
++     '@group/chart': path.resolve('../packages/chart/components'),
++   }
+</span>
+<span class="token inserted-sign inserted">+   Object.assign(config.resolve.alias, aliasPairs)
+</span><span class="token unchanged">    
+</span><span class="token inserted-sign inserted">+   return config
++ },
+</span>}
+
+</code></pre></div><div class="content-right animated fadeInRight delay-800"><ul><li>stories:: 文件 glob 模式</li><li>addons:: 注册插件</li><li>webpackFinal:: 得到 storybook 处理后最终的 webpack 配置</li><li><a href=https://storybook.js.org/docs/presets/writing-presets/#presets-api target=_blank>其他Presets API</a></li><li><a href=https://github.com/coloration/ti/blob/master/.storybook/main.js target=_blank>React + TS 配置</a></li></ul></div></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h3>2.2 添加全局装饰器和参数</h3><blockquote><p>.storybook/preview.js</p></blockquote><hr><div class="content-left animated fadeInLeft delay-800"><pre class=language-jsx><code class=language-jsx><span class="token keyword">import</span> <span class="token punctuation">{</span> addDecorator<span class="token punctuation">,</span> addParameters <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@storybook/vue'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> DocsPage<span class="token punctuation">,</span> DocsContainer <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@storybook/addon-docs/blocks'</span>
+
+<span class="token comment">// 容器盒子</span>
+
+<span class="token comment">// jsx</span>
+<span class="token function">addDecorator</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token punctuation">(</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">style</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> padding<span class="token operator">:</span> <span class="token string">'4rem 6rem'</span><span class="token punctuation">,</span> background<span class="token operator">:</span> <span class="token string">'#eee'</span> <span class="token punctuation">}</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">style</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> background<span class="token operator">:</span> <span class="token string">'#fff'</span> <span class="token punctuation">}</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>story</span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment">// or template</span>
+<span class="token function">addDecorator</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">(</span><span class="token punctuation">{</span> 
+  template<span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div style="text-align:center">&lt;story/>&lt;/div></span><span class="token template-punctuation string">`</span></span> 
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+</code></pre></div><div class="content-right animated fadeInRight delay-800"><pre class=language-jsx><code class=language-jsx><span class="token function">addParameters</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  docs<span class="token operator">:</span> <span class="token punctuation">{</span>
+    container<span class="token operator">:</span> DocsContainer<span class="token punctuation">,</span>
+    page<span class="token operator">:</span> DocsPage<span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  options<span class="token operator">:</span> <span class="token punctuation">{</span>
+    theme<span class="token operator">:</span><span class="token punctuation">{</span>
+      brandTitle<span class="token operator">:</span><span class="token string">'Custom Head'</span><span class="token punctuation">,</span>
+      brandUrl<span class="token operator">:</span> <span class="token string">'https://github.com'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre><ul><li><a href=https://storybook.js.org/docs/basics/writing-stories/#decorators target=_blank>装饰器, 参数详情</a></li></ul></div></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h3>2.3 三级配置</h3><blockquote><p>Story &gt; Component &gt; Global</p></blockquote><hr><div style="display: flex; align-items: stretch;"><pre class=language-js><code class=language-js><span class="token comment">// button.stories.js</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">ButtonDemo</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+  components<span class="token operator">:</span> <span class="token punctuation">{</span> MyButton<span class="token operator">:</span> Button <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token parameter">h</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token operator">&lt;</span>my<span class="token operator">-</span>button <span class="token operator">/</span><span class="token operator">></span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span> 
+ButtonDemo<span class="token punctuation">.</span>story <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment">// ... 配置</span>
+<span class="token punctuation">}</span>
+</code></pre><pre class=language-js><code class=language-js><span class="token comment">// button.stories.js</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  title<span class="token operator">:</span> <span class="token string">'UI | Button'</span><span class="token punctuation">,</span>
+  component<span class="token operator">:</span> Button<span class="token punctuation">,</span>
+  <span class="token comment">// ... 配置</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+</code></pre><pre class=language-js><code class=language-js><span class="token comment">// .storybook/preview.js</span>
+
+<span class="token comment">// ... 配置</span>
+<span class="token function">addDecorator</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token function">addParameters</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+
+
+</code></pre></div></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h3>2.4 Storybook 的UI配置</h3><blockquote><p>.storybook/manager.js</p></blockquote></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h2>3. 插件使用</h2></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h3>3.1 <a href=https://github.com/storybookjs/storybook/tree/master/addons/knobs target=_blank>knobs - 可输入的props</a></h3><div class="content-left animated fadeInLeft delay-800"><pre class=language-js><code class=language-js><span class="token comment">// .storybook/main.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  addons<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token comment">// ...</span>
+    <span class="token string">'@storybook/addon-knobs/register'</span><span class="token punctuation">,</span> <span class="token comment">// UI props</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><pre class=language-js><code class=language-js><span class="token comment">// bar.stories.js</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> withKnobs<span class="token punctuation">,</span> array <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@storybook/addon-knobs'</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">BarDemo</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+  components<span class="token operator">:</span> <span class="token punctuation">{</span> Bar <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  props<span class="token operator">:</span> <span class="token punctuation">{</span>
+    val<span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token keyword">default</span><span class="token operator">:</span> <span class="token function">array</span><span class="token punctuation">(</span><span class="token string">'Val'</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">500</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">230</span><span class="token punctuation">,</span> <span class="token number">430</span><span class="token punctuation">,</span> <span class="token number">220</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  template<span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;bar :val="val" /></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span>
+  methods<span class="token operator">:</span> <span class="token punctuation">{</span> action<span class="token operator">:</span> <span class="token function">action</span><span class="token punctuation">(</span><span class="token string">'clicked'</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+BarDemo<span class="token punctuation">.</span>story <span class="token operator">=</span> <span class="token punctuation">{</span>
+  decorators<span class="token operator">:</span> <span class="token punctuation">[</span>withKnobs<span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><div class="content-right animated fadeInRight delay-800"><iframe src="/multiple-project/storybook-static/?path=/story/chart-bar--bar-demo" style="width: 90%; height: 70vh;"></iframe></div></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h3>3.2 <a href=https://github.com/storybookjs/storybook/tree/master/addons/notes target=_blank>notes - 编写markdown</a></h3><div class="content-left animated fadeInLeft delay-800"><pre class=language-js><code class=language-js><span class="token comment">// .storybook/main.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  addons<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token comment">// ...</span>
+    <span class="token string">'@storybook/addon-notes/register'</span><span class="token punctuation">,</span> <span class="token comment">// UI props</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><pre class=language-js><code class=language-js><span class="token comment">// bar.stories.js</span>
+<span class="token keyword">import</span> barNotes <span class="token keyword">from</span> <span class="token string">'./Bar.md'</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  title<span class="token operator">:</span> <span class="token string">'Chart | Bar'</span><span class="token punctuation">,</span>
+  parameters<span class="token operator">:</span> <span class="token punctuation">{</span> notes<span class="token operator">:</span> barNotes <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">BarDemo</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token comment">// ...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+BarDemo<span class="token punctuation">.</span>story <span class="token operator">=</span> <span class="token punctuation">{</span>
+  parameters<span class="token operator">:</span> <span class="token punctuation">{</span> notes<span class="token operator">:</span> barNotes <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><div class="content-right animated fadeInRight delay-800"><iframe src="/multiple-project/storybook-static/?path=/info/chart-bar--bar-demo" style="width: 90%; height: 70vh;"></iframe></div></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h3>3.3 <a href=https://github.com/storybookjs/storybook/tree/master/addons/docs target=_blank>docs - mdx</a></h3><div class="content-left animated fadeInLeft delay-800"><pre class=language-js><code class=language-js><span class="token comment">// .storybook/main.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  addons<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token comment">// ...</span>
+    <span class="token string">'@storybook/addon-docs'</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><pre class=language-textile><code class=language-textile><span class="token phrase">// text.stories.mdx !!
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Meta</span> <span class="token attr-name">title</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>UI | Text<span class="token punctuation">'</span></span> <span class="token attr-name">component</span><span class="token attr-value"><span class="token punctuation">=</span>{Text}</span> <span class="token punctuation">/></span></span>
+
+<span class="token phrase"><span class="token list"><span class="token punctuation">#</span> Text</span></span>
+
+<span class="token phrase">文本组件</span>
+
+<span class="token phrase"><span class="token list"><span class="token punctuation">##</span> Useage</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Preview</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Story</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>Text mdx<span class="token punctuation">'</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>100px<span class="token punctuation">'</span></span> <span class="token attr-name">decorators</span><span class="token attr-value"><span class="token punctuation">=</span>{[withKnobs]}</span><span class="token punctuation">></span></span><span class="token phrase">{{
+    components: { TextView },
+    // mdx 不支持 render
+    template: </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>TextView</span><span class="token punctuation">></span></span><span class="token phrase">$123,456,789.00</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>TextView</span><span class="token punctuation">></span></span><span class="token phrase">`
+  }}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Story</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Preview</span><span class="token punctuation">></span></span>
+
+<span class="token phrase"><span class="token list"><span class="token punctuation">##</span> Props</span>
+</span><span class="token comment">&lt;!-- 自动显示Props --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Props</span> <span class="token attr-name">of</span><span class="token attr-value"><span class="token punctuation">=</span>{TextView}</span> <span class="token punctuation">/></span></span>
+</code></pre></div><div class="content-right animated fadeInRight delay-800"><iframe src="/multiple-project/storybook-static/?path=/docs/ui-text--text-mdx" style="width: 90%; height: 70vh;"></iframe></div></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h3>3.4 插件相关</h3><hr><div class=alignleft><ul><li><h4><a href=https://storybook.js.org/docs/addons/addon-gallery/ target=_blank>官方插件列表</a></h4></li><li><h4><a href=https://storybook.js.org/docs/addons/writing-addons/ target=_blank>自定义插件</a></h4></li></ul></div></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h2>4. 测试</h2></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h3>4.1 Structural Testing 结构测试</h3><p>每次构建记录故事快照，在下次修改后进行对照</p><hr><ul><li><a href=https://storybook.js.org/docs/testing/structural-testing/ target=_blank>Snapshot 快照测试</a></li></ul></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h3>4.2 Interaction Testing 交互测试</h3><hr><ul><li>storybook 外 jest mocha</li><li>storybook 内 jest with <a href=https://github.com/mthuret/storybook-addon-specifications target=_blank>addon specification</a></li></ul></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h3>4.3 Automated Visual Testing 视觉还原测试</h3><p><a href=https://storybook.js.org/docs/testing/automated-visual-testing/ target=_blank>https://storybook.js.org/docs/testing/automated-visual-testing/</a></p><p><img src=/visual-test.png alt=""></p><p><br></p><p><img src=/visual-test2.png alt=""></p></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h4>4.3.1 集成方案</h4><p>许多库和服务都开箱即用地集成了Storybook，集成程度各不相同。有些甚至使用复杂的机器学习而不是1：1像素比较。</p><ul><li><a href=https://www.chromatic.com/ target=_blank>Chromatic</a></li></ul><h4>4.3.2 自助餐</h4><ul><li>jest</li><li>puppeteer</li><li>jest-puppeteer</li><li>jest-image-snapshot</li><li>start-server-and-test</li></ul></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h3>4.4 Manual Testing 手动测试</h3><hr><p>爱了，不过不是手动测试每个功能点啦。要用 story 覆盖组件大部分的使用情况。（如之后的例子）</p></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h2>Ex. Examples</h2></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><p><a href="https://vueuse.js.org/?path=/story/docs--read-me" target=_blank>composition api library 文档 - @vueuse/core</a></p><iframe src=https://vueuse.js.org/ style="width: 90%; height: 70vh;"></iframe></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><p><a href=https://axaguildev.github.io/react-toolkit/v1.1.0/storybook target=_blank>组件库 - @axa-fr/react-toolkit-all</a></p><iframe src=https://axaguildev.github.io/react-toolkit/v1.1.0/storybook style="width: 90%; height: 70vh;"></iframe></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><p><a href=https://airbnb.io/react-dates target=_blank>单组件 - react-dates</a></p><iframe src=https://airbnb.io/react-dates style="width: 90%; height: 70vh;"></iframe></div></section><section slide class="slide aligncenter bg-light"><div class=wrap wrap=true><h2>END.</h2></div></section></article></div><script>window.pluginsOptions = {}
+
+
+
+    window.webslidesOptions = {}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    let isPrintMode = false;
+    if(~location.search.indexOf('print-pdf')){
+        isPrintMode = true;
+        WebSlides.registerPlugin('scroll', function(){});
+    }
+    const wsOptions = {
+        loop: false
+    };
+    if(window.webslidesOptions){
+        for (let i in webslidesOptions){
+            if(webslidesOptions.hasOwnProperty(i)){
+                wsOptions[i] = webslidesOptions[i];
+            }
+        }
+    }
+    const ws = new WebSlides(wsOptions)
+
+    window.wsInstance = ws;
+    if(isPrintMode){
+        ws.slides.forEach(s=>s.show())
+    }
+}, false)</script><script src=./js/chunk-vendors.js></script><script src=./js/README.js></script></body></html>

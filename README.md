@@ -5,10 +5,9 @@ css:
 
 <slide class="aligncenter" video="/video.mp4 autoplay loop">
 
-# Storybook {.text-landing}
+<h1 class="text-landing">Storybook</h1>
 
-
-<slide class="bg-apple">
+<slide class="bg-light">
 
 <div class="fadeInUp">
 
@@ -20,15 +19,16 @@ css:
 </div>
 
 
-<slide class="aligncenter bg-apple">
+<slide class="aligncenter bg-light">
 
-## 1. 开始使用 {.animated.pulse}
+## 1. 开始使用
 
-<slide class="aligncenter bg-apple">
+<slide class="aligncenter bg-light">
 
-### 1.1 新建项目 { .fadeInDown }
+### 1.1 新建项目
 
-:::div { .content-left.animated.fadeInLeft.delay-800 }
+
+<div class="content-left animated fadeInLeft delay-800">
 
 ``` bash
 $ vue create <project> && cd <project>
@@ -39,10 +39,10 @@ $ vue create <project> && cd <project>
 - storybook <https://storybook.js.org/docs/guides/guide-vue/>
 - vue cli
 
-:::
+</div>
 
 
-:::div {.content-right.animated.fadeInRight.delay-800 }
+<div class=" content-right animated fadeInRight delay-800">
 
 ```
 /- <project>
@@ -55,18 +55,19 @@ $ vue create <project> && cd <project>
   |- ...
 ```
 
-:::
+</div>
 
 
-
-<slide class="aligncenter bg-apple">
+<slide class="aligncenter bg-light">
 
 
 ### 1.2 写一个组件
 
 上手简单，最原始的项目就可以使用 .vue .jsx 开发组件
 
-:::div { .content-left.animated.fadeInLeft.delay-800 }
+<hr>
+
+<div class="content-left animated fadeInLeft delay-800">
 
 ``` html
 <template>
@@ -87,10 +88,10 @@ export default {
 </style>
 ```
 
-:::
+</div>
 
 
-:::div { .content-right.animated.fadeInRight.delay-800 }
+<div class=" content-right animated fadeInRight delay-800">
 
 ``` jsx
 export const TextDemo = () => ({
@@ -110,26 +111,25 @@ TextDemo.story = {
 }
 ```
 
-:::
+</div>
 
-
-:::div { .content-botton.animated.fadeInUp.delay-1500 }
+<div class=" content-botton animated fadeInUp delay-1500">
 
 - [另一种 story 写法 StoriesOf API](https://storybook.js.org/docs/formats/storiesof-api/)
 
-:::
+</div>
 
-<slide class="aligncenter bg-apple">
+<slide class="aligncenter bg-light">
 
-<iframe src="/single-project/storybook-static" style="width: 90%; height: 70vh;">
+<iframe src="/single-project/storybook-static/?path=/story/text--test-component" style="width: 90%; height: 70vh;">
 
-<slide class="aligncenter bg-apple">
+<slide class="aligncenter bg-light">
 
 ### 1.3 组织多项目
 
 <hr>
 
-:::div { .content-left.animated.fadeInLeft.delay-800 }
+<div class="content-left animated fadeInLeft delay-800">
 
 #### 创建项目
 
@@ -144,9 +144,10 @@ $ mkdir <project> && cd <project>
 <p>$ echo node_modules > .gitignore
 ```
 
-:::
+</div>
 
-:::div { .content-right.animated.fadeInRight.delay-800 }
+
+<div class=" content-right animated fadeInRight delay-800">
 
 #### 目录结构
 
@@ -163,16 +164,15 @@ $ mkdir <project> && cd <project>
  |- storybook-static/ # 打包后静态站 
 ```
 
-:::
+</div>
 
-<slide class="aligncenter bg-apple">
-
-
-## 2. 一些配置 {.animated.pulse}
+<slide class="aligncenter bg-light">
 
 
+## 2. 一些配置
 
-<slide class="aligncenter  bg-apple">
+
+<slide class="aligncenter  bg-light">
 
 ### 2.1 预设 
 
@@ -180,7 +180,7 @@ $ mkdir <project> && cd <project>
 
 ---
 
-::: div {.content-left }
+<div class="content-left animated fadeInLeft delay-800">
 
 ``` diff
 module.exports = {
@@ -206,9 +206,9 @@ module.exports = {
 
 ```
 
-:::
+</div>
 
-::: div {.content-right }
+<div class=" content-right animated fadeInRight delay-800">
 
 - stories: 文件 glob 模式
 - addons: 注册插件
@@ -216,10 +216,10 @@ module.exports = {
 - [其他Presets API](https://storybook.js.org/docs/presets/writing-presets/#presets-api)
 - [React + TS 配置](https://github.com/coloration/ti/blob/master/.storybook/main.js)
 
-:::
+</div>
 
 
-<slide class="aligncenter bg-apple">
+<slide class="aligncenter bg-light">
 
 ### 2.2 添加全局装饰器和参数
 
@@ -227,7 +227,7 @@ module.exports = {
 
 ---
 
-::: div {.content-left}
+<div class="content-left animated fadeInLeft delay-800">
 
 ``` jsx
 import { addDecorator, addParameters } from '@storybook/vue'
@@ -251,9 +251,9 @@ addDecorator(() => ({
 
 ```
 
-:::
+</div>
 
-::: div {.content-right }
+<div class=" content-right animated fadeInRight delay-800">
 
 ``` jsx
 addParameters({
@@ -273,19 +273,19 @@ addParameters({
 - [装饰器, 参数详情](https://storybook.js.org/docs/basics/writing-stories/#decorators)
 
 
-:::
+</div>
 
 
-<slide class="aligncenter bg-apple">
+<slide class="aligncenter bg-light">
 
-### 3.1 三级配置
+### 2.3 三级配置
 
 > Story > Component > Global
 
 ---
 
 
-<div style="display: flex;">
+<div style="display: flex; align-items: stretch;">
 
 ``` js
 // button.stories.js
@@ -301,11 +301,13 @@ ButtonDemo.story = {
 
 ``` js
 // button.stories.js
+
 export default {
   title: 'UI | Button',
   component: Button,
   // ... 配置
 };
+
 ```
 
 
@@ -315,40 +317,162 @@ export default {
 // ... 配置
 addDecorator()
 addParameters()
+
+
+
 ```
 
 </div>
 
 
-<slide class="aligncenter bg-apple">
+<slide class="aligncenter bg-light">
 
-### Storybook 的UI配置 
+### 2.4 Storybook 的UI配置 
 
 > .storybook/manager.js
 
 
 
-<slide class="aligncenter  bg-apple">
+<slide class="aligncenter  bg-light">
 
 ## 3. 插件使用
 
 
-<slide class="aligncenter  bg-apple">
+<slide class="aligncenter  bg-light">
 
 ### 3.1 [knobs - 可输入的props](https://github.com/storybookjs/storybook/tree/master/addons/knobs)
 
+<div class="content-left animated fadeInLeft delay-800">
 
-<slide class="aligncenter  bg-apple">
+``` js
+// .storybook/main.js
+module.exports = {
+  addons: [
+    // ...
+    '@storybook/addon-knobs/register', // UI props
+  ],
+};
+```
+
+``` js 
+// bar.stories.js
+import { withKnobs, array } from '@storybook/addon-knobs'
+
+export const BarDemo = () => ({
+  components: { Bar },
+  props: {
+    val: { default: array('Val', [500, 100, 230, 430, 220])}
+  },
+  template: `<bar :val="val" />`,
+  methods: { action: action('clicked') },
+})
+
+BarDemo.story = {
+  decorators: [withKnobs]
+}
+```
+
+</div>
+
+<div class=" content-right animated fadeInRight delay-800">
+
+  <iframe src="/multiple-project/storybook-static/?path=/story/chart-bar--bar-demo" style="width: 90%; height: 70vh;">
+
+</div>
+
+<slide class="aligncenter  bg-light">
 
 
 ### 3.2 [notes - 编写markdown](https://github.com/storybookjs/storybook/tree/master/addons/notes)
 
-<slide class="aligncenter bg-apple">
+<div class="content-left animated fadeInLeft delay-800">
+
+``` js
+// .storybook/main.js
+module.exports = {
+  addons: [
+    // ...
+    '@storybook/addon-notes/register', // UI props
+  ],
+};
+```
+
+``` js
+// bar.stories.js
+import barNotes from './Bar.md'
+
+export default {
+  title: 'Chart | Bar',
+  parameters: { notes: barNotes }
+};
+
+export const BarDemo = () => ({
+  // ...
+})
+
+BarDemo.story = {
+  parameters: { notes: barNotes }
+}
+```
+
+</div>
+
+<div class=" content-right animated fadeInRight delay-800">
+
+  <iframe src="/multiple-project/storybook-static/?path=/info/chart-bar--bar-demo" style="width: 90%; height: 70vh;">
+
+</div>
+
+
+<slide class="aligncenter bg-light">
 
 ### 3.3 [docs - mdx](https://github.com/storybookjs/storybook/tree/master/addons/docs)
 
+<div class="content-left animated fadeInLeft delay-800">
 
-<slide class="aligncenter bg-apple">
+``` js
+// .storybook/main.js
+module.exports = {
+  addons: [
+    // ...
+    '@storybook/addon-docs',
+  ],
+};
+```
+
+``` md
+// text.stories.mdx !!
+<Meta title='UI | Text' component={Text} />
+
+# Text
+
+文本组件
+
+## Useage
+
+<Preview>
+  <Story name='Text mdx' height='100px' decorators={[withKnobs]}>{{
+    components: { TextView },
+    // mdx 不支持 render
+    template: <TextView>$123,456,789.00</TextView>`
+  }}</Story>
+</Preview>
+
+## Props
+<!-- 自动显示Props -->
+<Props of={TextView} />
+```
+
+</div>
+
+<div class="content-right animated fadeInRight delay-800">
+
+  <iframe src="/multiple-project/storybook-static/?path=/docs/ui-text--text-mdx" style="width: 90%; height: 70vh;">
+
+</div>
+
+
+<slide class="aligncenter bg-light">
 
 ### 3.4 插件相关
 
@@ -362,28 +486,34 @@ addParameters()
 :::
 
 
-<slide class="aligncenter  bg-apple">
+<slide class="aligncenter  bg-light">
 
 
 ## 4. 测试
 
-<slide class="aligncenter  bg-apple">
+<slide class="aligncenter  bg-light">
 
 ### 4.1 Structural Testing 结构测试
 
-- [Snapshot 快照测试](https://storybook.js.org/docs/testing/structural-testing/)
-
 每次构建记录故事快照，在下次修改后进行对照
 
-<slide class="aligncenter  bg-apple">
+<hr>
+
+- [Snapshot 快照测试](https://storybook.js.org/docs/testing/structural-testing/)
+
+
+
+<slide class="aligncenter  bg-light">
 
 ### 4.2 Interaction Testing 交互测试
+
+<hr>
 
 - storybook 外 jest mocha
 - storybook 内 jest with [addon specification](https://github.com/mthuret/storybook-addon-specifications)
 
 
-<slide class="aligncenter  bg-apple">
+<slide class="aligncenter  bg-light">
 
 ### 4.3 Automated Visual Testing 视觉还原测试
 
@@ -400,7 +530,7 @@ addParameters()
 
 
 
-<slide class="aligncenter  bg-apple">
+<slide class="aligncenter  bg-light">
 
 #### 4.3.1 集成方案
 
@@ -416,17 +546,19 @@ addParameters()
 - jest-image-snapshot
 - start-server-and-test
 
-<slide class="aligncenter  bg-apple">
+<slide class="aligncenter  bg-light">
 
 ### 4.4 Manual Testing 手动测试
 
+<hr>
+
 爱了，不过不是手动测试每个功能点啦。要用 story 覆盖组件大部分的使用情况。（如之后的例子）
 
-<slide class="aligncenter  bg-apple">
+<slide class="aligncenter  bg-light">
 
 ## Ex. Examples
 
-<slide class="aligncenter bg-apple">
+<slide class="aligncenter bg-light">
 
 [composition api library 文档 - @vueuse/core](https://vueuse.js.org/?path=/story/docs--read-me)
 
@@ -434,14 +566,14 @@ addParameters()
 
 
 
-<slide class="aligncenter bg-apple">
+<slide class="aligncenter bg-light">
 
 [组件库 - @axa-fr/react-toolkit-all](https://axaguildev.github.io/react-toolkit/v1.1.0/storybook)
 
 <iframe src="https://axaguildev.github.io/react-toolkit/v1.1.0/storybook" style="width: 90%; height: 70vh;">
 
 
-<slide class="aligncenter bg-apple">
+<slide class="aligncenter bg-light">
 
 [单组件 - react-dates](https://airbnb.io/react-dates)
 
@@ -450,6 +582,6 @@ addParameters()
 
 
 
-<slide class="aligncenter bg-apple">
+<slide class="aligncenter bg-light">
 
 ## END.
