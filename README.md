@@ -138,7 +138,9 @@ $ npm i lerna -g
 $ mkdir <project> && cd <project>
 <p>$ lerna init
 <p>$ lerna create <package> -y
+
 # ...
+
 <p>$ npx -p @storybook/cli sb init --type vue
 <p>$ npm i vue vue-loader vue-template-compiler -D
 <p>$ echo node_modules > .gitignore
@@ -176,7 +178,7 @@ $ mkdir <project> && cd <project>
 
 ### 2.1 预设 
 
-> .storybook/main.js
+> 全局配置 .storybook/main.js 
 
 ---
 
@@ -223,7 +225,7 @@ module.exports = {
 
 ### 2.2 添加全局装饰器和参数
 
-> .storybook/preview.js
+> 预览配置 .storybook/preview.js
 
 ---
 
@@ -329,9 +331,30 @@ addParameters()
 
 ### 2.4 Storybook 的UI配置 
 
-> .storybook/manager.js
+> 管理配置 .storybook/manager.js
 
+<https://storybook.js.org/docs/configurations/options-parameter/>
 
+---
+
+``` js
+import { addons } from '@storybook/addons';
+
+addons.setConfig({
+  
+  isFullscreen: false, // show story component as full screen
+  showNav: true, // display panel that shows a list of stories
+  showPanel: true, // display panel that shows addon configurations
+
+  /**
+   * where to show the addon panel
+   * @type {('bottom'|'right')}
+   */
+  panelPosition: 'bottom',
+
+  // ...
+});
+```
 
 <slide class="aligncenter  bg-light">
 
@@ -552,7 +575,7 @@ module.exports = {
 
 <hr>
 
-爱了，不过不是手动测试每个功能点啦。要用 story 覆盖组件大部分的使用情况。（如之后的例子）
+爱了，我最喜欢的测试。不过是要用 story 覆盖组件大部分的使用情况。（如之后的例子）
 
 <slide class="aligncenter  bg-light">
 
