@@ -1,0 +1,130 @@
+import { Story, Preview, Meta } from "@storybook/addon-docs/blocks";
+import StoreDispatcher from '../components/StoreDispatcher.vue'
+import StoreReceiver from '../components/StoreReceiver.vue'
+
+<Meta title="Composition/Store" />
+
+## Store
+
+> 通过 composition api 同步组件间状态
+
+<Preview>
+  <Story name="Docs" args={{ 
+      label: 'Unchecked'
+    }}>{{
+    components: {StoreDispatcher, StoreReceiver},
+    template: `<div>
+      <StoreReceiver />
+      <StoreDispatcher />
+    </div>`,
+  }}</Story>
+</Preview>
+
+
+
+写MDX需要修改 `babel.config.js` [issue](https://github.com/storybookjs/storybook/issues/11094)
+
+
+
+### store.js
+
+``` js
+import { Store } from './composition'
+
+let user = null
+
+export function getUseUserStore () {
+  if (user === null) {
+    user = new Store({
+      isLogin: false,
+      userName: ''
+    })
+  }
+
+  return user.useStore
+}
+```
+
+### Login.vue 
+
+``` html
+<template>
+<div>
+  <a-button type="primary" @click="login">login</a-button>
+  <a-button @click="logout">logout</a-button>
+</div>
+</template>
+
+<script>
+import { getUseUserStore } from '../store'
+export default {
+  setup () {
+    const useUserStore = getUseUserStore()
+
+    const { dispatch } = useUserStore()
+
+
+    function login () {
+      dispatch('isLogin', true)
+      dispatch('userName', 'abc')
+    }
+
+    function logout () {
+      dispatch('isLogin', false)
+      dispatch('userName', '')
+    }
+
+    return {
+      login,
+      logout
+    }
+    
+  }
+}
+</script>
+```
+
+### Navigator.vue
+
+``` html
+<template>
+<div>
+  status: {{ user.isLogin }}
+  user: {{ user.userName }}
+</div>
+</template>
+
+<script>
+import { getUseUserStore } from '../store'
+export default {
+  setup () {
+    
+    const useUserStore = getUseUserStore()
+    const { store } = useUserStore()
+
+    return {
+      user: store
+    }
+  }
+}
+</script>
+```
+
+[https://storybook.js.org/docs/react/essentials/controls#annotation](https://storybook.js.org/docs/react/essentials/controls#annotation)
+
+| Data Type | Control Type | Description | Options |
+|:---|:---|:---|:---|
+|array|array|serialize array into a comma-separated string inside a textbox|separator|
+|boolean|boolean|checkbox input|-|
+|number|number|a numeric text box input|min, max, step|
+|-|range|a range slider input|min, max, step|
+|object|object|json editor text input|-|
+|enum|radio|radio buttons input|options|
+|-|inline-radio|inline radio buttons input|options|
+|-|check|multi-select checkbox input|options|
+|-|inline-check|multi-select inline checkbox input|options|
+|-|select|select dropdown input|options|
+|-|multi-select|multi-select dropdown input|options|
+|string|text|simple text input|-|
+|-|color|color picker input that assumes strings are color values|-|
+|-|date|date picker input|-|

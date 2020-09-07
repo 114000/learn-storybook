@@ -1,0 +1,228 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { demoOptions } from '../enums.js'
+
+<Meta title="Example/README" />
+
+
+# Storybook
+
+
+> ### __Build bulletproof UI components faster__
+
+
+<video width="800" autoplay="autoplay" src="https://storybook.js.org/7e71705d211e17a2967606c49059e891/storybook-hero-video-optimized.mp4" />
+
+<br />
+
+## 应用场景
+
+1. UI控件
+2. UI示例
+3. UI规范
+4. 描述抽象业务, 代码
+5. 文档
+6. 博客
+
+## 解决的问题
+
+### 1. 越来越多的碎片化,抽象化的开发.
+
+- **code**:          _SDK_, _函数库_
+- **component**:     _图表_, _UI控件_
+- **container**:     _业务模块_
+- **system context**:_项目_
+
+### 2. 低入侵,低成本的设计知识整合
+
+#### a. 在已有项目中集成
+
+``` bash
+$ vue create <project> 
+$ cd <project>
+<p>$ npx sb init # 会根据项目适配 --type vue
+
+<p>$ npm run storybook # 开发
+<p>$ npm run build-storybook # 构建
+```
+
+``` diff
+/- <project>
++ |- .storybook/       # 配置项目录
+  |- public/
+  |- src/
+  |  |- ...
++ |  |- stories/       # stories
++ |- storybook-static/ # 静态站 
+  |- ...
+```
+
+#### b. 文档跟随项目, 可以自动更新常量, 配置. 减少心智负担
+
+demo.1
+<p>{demoOptions.map(opt => `${opt.name}: ${opt.value}`).join(', ')}</p>
+
+demo.2
+
+``` bash
+# 备注.md
+- 06-23.v1
+  * 优化: xxxx
+  * 修复: xxxx
+```
+
+
+
+#### c. 组合多个文档
+
+```diff
+.storybook/main.js
+
+module.exports = {
+  "stories": [
+    "../src/**/*.stories.mdx",
+    "../src/**/*.stories.@(js|jsx|ts|tsx)"
+  ],
+  "addons": [
+    "@storybook/addon-links",
+    "@storybook/addon-essentials"
+  ],
++ "refs": {
++   "design-system": { 
++     "title": "Design System", 
++     "url": "https://5ccbc373887ca40020446347-yldsqjoxzb.chromatic.com"
++   },
++   "test": { 
++     "title": "Test", 
++     "url": "https://www.baidu.com"
++   }
++  }
+}
+```
+
+## 工作原理
+
+
+
+![](https://storybook.js.org/f1d5213d42bc4321123f8a3d5f4b5076/manager-preview.jpg)
+
+### UI
+
+```
+-
+        +----- channel<postMessage> -----+
+        |                                |
+        |                                |
++-------+------+-------------------------v------+
+|              |                        src     |
+|              |                                |
+|              |                        props   <------+
+|              |        Preview<iframe>         |      |
+|              |                                |      |
+|   Sidebar    |                                |      +
+|              |                                |
+|              |                                | channel<postMessage>
+|              |                                |
+|              +--------------------------------+      +
+|              |                                |      |
+|              |                                |      |
+|              |           Pannel               +------+
+|              |                                |
++--------------+--------------------------------+
+
+
+```
+
+### 执行流程
+
+```
+Renderer(
+  Decorator(
+    Story(<Component>)(Parameters)
+  )
+)
+```
+
+#### 1. Parameters
+- Canvas/Docs Tab
+- 全屏/分享/复制
+- Logo
+- 导航显示逻辑
+- 背景色
+...
+
+#### 2. Decorator 
+- mock props/data
+- ui wrapper
+...
+
+
+Note: 
+- 可以将 Parameters 理解为 Story 的配置项
+- 作用域 Story > 文件 > Global
+
+
+## 测试
+
+### 1. Structural Testing 结构测试
+
+每次构建记录故事快照，在下次修改后进行对照
+
+
+- [Snapshot 快照测试](https://storybook.js.org/docs/testing/structural-testing/)
+
+### 2. Interaction Testing 交互测试
+
+- storybook 外 jest mocha
+- storybook 内 jest with [addon specification](https://github.com/mthuret/storybook-addon-specifications)
+
+### 3. Automated Visual Testing 视觉还原测试
+
+[docs](https://storybook.js.org/docs/testing/automated-visual-testing/)
+
+![](/visual-test.png)
+
+<br />
+
+![](/visual-test2.png)
+
+<br />
+
+#### 集成方案
+
+许多库和服务都开箱即用地集成了Storybook，集成程度各不相同。有些甚至使用复杂的机器学习而不是1：1像素比较。
+
+- [Chromatic](https://www.chromatic.com/) 
+  * 免费 每月5000张快照, chrome
+  * 付费 chrome, firefox
+
+#### 自助餐
+
+- jest
+- puppeteer
+- jest-puppeteer
+- jest-image-snapshot
+- start-server-and-test
+
+
+### 4. Manual Testing 手动测试
+
+爱了，我最喜欢的测试。不过是要用 story 覆盖组件大部分的使用情况。（如之后的 airbnb 例子）
+
+## DEMO
+
+此项目
+
+<hr />
+
+## Ex. Examples
+
+
+#### [composition api library 文档 - @vueuse/core](https://vueuse.js.org/?path=/story/docs--read-me)
+
+#### [组件库 - @axa-fr/react-toolkit-all](https://axaguildev.github.io/react-toolkit/v1.1.0/storybook)
+
+#### [单组件 - react-dates](https://airbnb.io/react-dates)
+
+
+
+
